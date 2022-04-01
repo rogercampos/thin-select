@@ -20,6 +20,7 @@ $spacing-s: 4px !default;
 
   .ss-single-selected {
     display: flex;
+    justify-content: space-between;
     cursor: pointer;
     width: 100%;
     height: $height;
