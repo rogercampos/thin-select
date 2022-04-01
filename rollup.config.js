@@ -4,6 +4,8 @@ import pluginNodeResolve from "@rollup/plugin-node-resolve";
 import { babel } from "@rollup/plugin-babel";
 import * as path from "path";
 import pkg from "./package.json";
+import scss from "rollup-plugin-scss";
+
 
 export default [
 
@@ -34,6 +36,10 @@ export default [
             }),
             pluginNodeResolve({
                 browser: false,
+            }),
+            scss({
+                output: "./build/thin-select.css",
+                failOnError: true,
             }),
         ],
     },
