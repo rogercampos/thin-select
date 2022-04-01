@@ -1,9 +1,9 @@
 {
-  "name": "slim-select",
+  "name": "thin-select",
   "version": "2.0.0",
   "description": "Better select",
   "main": "build/index.js",
-  "repository": "git@github.com:rogercampos/slim-select.git",
+  "repository": "git@github.com:rogercampos/thin-select.git",
   "author": "Roger Campos <roger@rogercampos.com>",
   "license": "MIT",
   "private": false,
