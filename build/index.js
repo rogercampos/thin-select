@@ -1,0 +1,10 @@
+var odd_even = (value) => {
+    return value % 2 == 0 ? true : false;
+};
+
+var index = {
+    odd_even: odd_even,
+};
+
+export { index as default };
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VzIjpbIi4uL3NyYy9vZGRfZXZlbi50cyIsIi4uL3NyYy9pbmRleC50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgZGVmYXVsdCAodmFsdWU6IG51bWJlcik6IGJvb2xlYW4gPT4ge1xuICByZXR1cm4gdmFsdWUgJTIgPT0wID8gdHJ1ZSA6IGZhbHNlO1xufVxuIiwiaW1wb3J0IG9kZF9ldmVuIGZyb20gJy4vb2RkX2V2ZW4nO1xuXG5leHBvcnQgZGVmYXVsdCB7XG4gIG9kZF9ldmVuOiBvZGRfZXZlbixcbn1cbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxlQUFlLENBQUMsS0FBYSxLQUFhO0FBQ3hDLElBQUEsT0FBTyxLQUFLLEdBQUUsQ0FBQyxJQUFHLENBQUMsR0FBRyxJQUFJLEdBQUcsS0FBSyxDQUFDO0FBQ3JDLENBQUM7O0FDQUQsWUFBZTtBQUNiLElBQUEsUUFBUSxFQUFFLFFBQVE7Q0FDbkI7Ozs7In0=
