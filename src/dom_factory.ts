@@ -1,9 +1,8 @@
 import {Option} from "./models"
 import { Search, SingleSelected } from "./view";
 
-const buildContainer = (id: string) => {
+const buildContainer = () => {
   const container = document.createElement('div');
-  container.id = id;
   container.classList.add('ss-main');
   return container;
 }
@@ -49,7 +48,7 @@ const buildResultsList = () => {
 }
 
 
-const buildSingleSelect = (onClick: () => void, onDeselect: () => void): SingleSelected => {
+const buildSingleSelect = (onClick: () => void): SingleSelected => {
   const container: HTMLDivElement = document.createElement('div')
   container.classList.add('ss-single-selected')
   
@@ -57,13 +56,6 @@ const buildSingleSelect = (onClick: () => void, onDeselect: () => void): SingleS
   const title: HTMLSpanElement = document.createElement('span')
   title.classList.add('placeholder')
   container.appendChild(title)
-  
-  // Deselect
-  const deselect = document.createElement('span')
-  deselect.innerHTML = "x"
-  deselect.classList.add('ss-deselect', 'ss-hide')
-  deselect.onclick = onDeselect;
-  container.appendChild(deselect)
   
   // Arrow
   const arrowContainer: HTMLSpanElement = document.createElement('span')
@@ -79,7 +71,6 @@ const buildSingleSelect = (onClick: () => void, onDeselect: () => void): SingleS
   return {
     container,
     title,
-    deselect,
     arrowIcon: {
       container: arrowContainer,
       arrow: arrowIcon

@@ -11,7 +11,6 @@ import {
 export interface SingleSelected {
   container: HTMLDivElement
   title: HTMLSpanElement
-  deselect: HTMLSpanElement
   arrowIcon: {
     container: HTMLSpanElement
     arrow: HTMLSpanElement
@@ -33,7 +32,6 @@ export default class View {
   public singleSelected: SingleSelected | null
   
   public onSearch: any
-  public onDeselect: any
   public onClose: any
   public onOpen: any
   public onOptionSelect: any
@@ -44,17 +42,14 @@ export default class View {
   
   constructor(
       el: HTMLSelectElement,
-      id: string,
       isMultiple: boolean,
       onSearch: any,
       onOptionSelect: any,
-      onDeselect: any,
       onClose: any,
       onOpen: any,
   ) {
     this.element = el;
     this.onSearch = onSearch;
-    this.onDeselect = onDeselect;
     this.onOptionSelect = onOptionSelect;
     this.onClose = onClose;
     this.onOpen = onOpen;
@@ -62,7 +57,7 @@ export default class View {
     this.isMultiple = isMultiple;
     this.isOpened = false;
     
-    this.container = buildContainer(id);
+    this.container = buildContainer();
     
     this.content = buildContent();
     this.search = buildSearch(this.onSearch);
@@ -71,7 +66,7 @@ export default class View {
     const onClick = (): void => {
       this.isOpened ? this.onClose() : this.onOpen();
     }
-    this.singleSelected = buildSingleSelect(onClick, this.onDeselect);
+    this.singleSelected = buildSingleSelect(onClick);
     
     this.container.appendChild(this.singleSelected.container)
     this.container.appendChild(this.content)
@@ -80,7 +75,6 @@ export default class View {
     this.content.appendChild(this.list)
     
     el.style.display = 'none';
-    el.dataset.tsid = id;
     
     if (el.parentNode) {
       el.parentNode.insertBefore(this.container, el.nextSibling)
@@ -140,5 +134,17 @@ export default class View {
     this.list.innerHTML = '';
     options.forEach((option) => this.list.appendChild(generateOption(option, this.onOptionSelect)))
   };
+  
+  setElementOptions = (options: Option[]): void => {
+    this.element.innerHTML = '';
+  
+    options.forEach((option) => {
+      const opt = document.createElement('option');
+      opt.value = option.value;
+      opt.innerText = option.text;
+      opt.selected = option.selected;
+      this.element.appendChild(opt);
+    })
+  }
   
 }

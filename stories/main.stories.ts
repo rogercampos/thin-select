@@ -11,8 +11,9 @@ const Template = (args) => {
     new ThinSelect({
       select: '#select',
       ajax: (search, callback) => {
-        console.log(`Called ajax with [${search}]`)
-        callback([{text: "First option", value: "1"}, {text: "Second option", value: "2"}])
+        setTimeout(() => {
+          callback([{text: "", value: ""}, {text: "First option", value: "1"}, {text: "Second option", value: "2"}])
+        }, 400);
       }
     })
   }, 200);
@@ -20,9 +21,9 @@ const Template = (args) => {
   return `
   <div style="width: 30%">
     <select id="select">
-      <option value=""></option>
+<!--      <option value=""></option>-->
       <option value="1">First option</option>
-      <option value="2">Second option</option>
+<!--      <option value="2">Second option</option>-->
     </select>
   </div>
   `;

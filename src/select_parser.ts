@@ -18,9 +18,19 @@ export default class SelectParser {
       options.push({ value: option.value, text: option.text, selected: option.selected });
     });
   
+    let defaultOption;
+    options.forEach(option => {
+      if (option.selected) {
+        defaultOption = option;
+      }
+    });
+    
+    defaultOption = defaultOption || options[0];
+    
     return({
       isMultiple,
-      options
+      options,
+      defaultOption
     });
   }
 }

@@ -49,15 +49,6 @@
         width: auto; }
       .ss-main .ss-single-selected .placeholder .ss-disabled {
         color: #dedede; }
-    .ss-main .ss-single-selected .ss-deselect {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      flex: 0 1 auto;
-      margin: 0 6px 0 6px;
-      font-weight: bold; }
-      .ss-main .ss-single-selected .ss-deselect.ss-hide {
-        display: none; }
     .ss-main .ss-single-selected .ss-arrow {
       display: flex;
       align-items: center;
