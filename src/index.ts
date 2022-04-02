@@ -1,5 +1,5 @@
 import "../styles/thin-select.scss"
-import DomBuilder from "./dom_builder";
+import View from "./view";
 import SelectParser from "./select_parser";
 import {Option} from "./models"
 
@@ -8,7 +8,7 @@ interface ThinSelectParams {
 }
 
 export default class ThinSelect {
-  public builder: DomBuilder;
+  public view: View;
   public id: string;
   public displayedOptionsList: Option[];
   public isSearching: boolean;
@@ -21,7 +21,7 @@ export default class ThinSelect {
     this.id = 'ts-' + Math.floor(Math.random() * 100000);
     this.isSearching = false;
     
-    this.builder = new DomBuilder(
+    this.view = new View(
         el,
         this.id,
         initialSelectInfo.isMultiple,
@@ -32,33 +32,33 @@ export default class ThinSelect {
         this.openPanel,
     );
     this.displayedOptionsList = initialSelectInfo.options;
-    this.builder.setDisplayList(this.displayedOptionsList);
+    this.view.setDisplayList(this.displayedOptionsList);
   }
   
-  onSearch = (text: string) => {
+  onSearch = (text: string): void => {
     this.isSearching = true;
     const matchedOptions = this.displayedOptionsList.filter(option => this.searchFilter(option.text, text));
-    this.builder.setDisplayList(matchedOptions);
+    this.view.setDisplayList(matchedOptions);
   }
   
-  onDeselect = () => {
+  onDeselect = (): void => {
     console.log(`onDeselect`)
   }
   
-  closePanel = () => {
-    this.builder.closePanel();
+  closePanel = (): void => {
+    this.view.closePanel();
     
     setTimeout(() => {
-      this.builder.setDisplayList(this.displayedOptionsList);
+      this.view.setDisplayList(this.displayedOptionsList);
     }, 100);
     this.isSearching = false;
   }
   
-  openPanel = () => {
-    this.builder.openPanel();
+  openPanel = (): void => {
+    this.view.openPanel();
   }
   
-  onOptionSelect = (option: Option) => {
+  onOptionSelect = (option: Option): void => {
     this.displayedOptionsList.forEach((x) => {
       if (x.value === option.value) {
         x.selected = true;
@@ -66,11 +66,11 @@ export default class ThinSelect {
         x.selected = false;
       }
     })
-    this.builder.setSelected(option);
+    this.view.setSelected(option);
     this.closePanel();
   }
   
-  searchFilter = (optionText: string, inputText: string) => {
+  searchFilter = (optionText: string, inputText: string) : boolean => {
     return optionText.toLowerCase().indexOf(inputText.toLowerCase()) !== -1;
   }
   
