@@ -74,7 +74,9 @@ $spacing-s: 4px !default;
         color: $font-disabled-color;
       }
     }
+  }
 
+  .ss-single-selected, .ss-multi-selected {
     .ss-arrow {
       display: flex;
       align-items: center;

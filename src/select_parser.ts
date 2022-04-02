@@ -1,4 +1,4 @@
-import { Option} from "./models";
+import {Option} from "./models";
 
 export default class SelectParser {
   public el: HTMLSelectElement;
@@ -13,24 +13,27 @@ export default class SelectParser {
   analyze() {
     const isMultiple = this.el.multiple;
     const options: Option[] = [];
-  
+    
     Array.from(this.el.options).forEach((option: HTMLOptionElement) => {
-      options.push({ value: option.value, text: option.text, selected: option.selected });
+      options.push({value: option.value, text: option.text, selected: option.selected});
     });
-  
-    let defaultOption;
+    
+    // Follows default browser behavior on choosing what option to display initially:
+    // Last of the selected or the first one (only for single selects).
+    let defaultSingleOption;
+    
     options.forEach(option => {
       if (option.selected) {
-        defaultOption = option;
+        defaultSingleOption = option;
       }
     });
     
-    defaultOption = defaultOption || options[0];
+    defaultSingleOption = defaultSingleOption || options[0];
     
-    return({
+    return ({
       isMultiple,
       options,
-      defaultOption
+      defaultSingleOption
     });
   }
 }

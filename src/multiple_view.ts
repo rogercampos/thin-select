@@ -4,13 +4,14 @@ import {
   buildContent,
   buildResultsList,
   buildSearch,
-  buildSingleSelect,
-  generateOption
+  buildMultiSelect,
+  generateOption,
+  buildMultiTitleBadge
 } from "./dom_factory";
 
-export interface SingleSelected {
+export interface MultiSelected {
   container: HTMLDivElement
-  title: HTMLSpanElement
+  values: HTMLDivElement
   arrowIcon: {
     container: HTMLSpanElement
     arrow: HTMLSpanElement
@@ -24,17 +25,18 @@ export interface Search {
 }
 
 
-export default class View {
+export default class MultiView {
   public container: HTMLDivElement
   public content: HTMLDivElement
   public search: Search
   public list: HTMLDivElement
-  public singleSelected: SingleSelected
+  public multiSelected: MultiSelected
   
   public onSearch: any
   public onClose: any
   public onOpen: any
   public onOptionSelect: any
+  public onRemoveMultiOption: any
   public isOpened: boolean
   
   public element: HTMLSelectElement;
@@ -44,10 +46,11 @@ export default class View {
   onDocumentClick = (e: MouseEvent) => {
     if (
         this.isOpened &&
-        e.target !== this.singleSelected.title &&
-        e.target !== this.singleSelected.arrowIcon.container &&
-        e.target !== this.singleSelected.arrowIcon.arrow &&
-        e.target !== this.singleSelected.container
+        e.target !== this.multiSelected.values &&
+        e.target !== this.multiSelected.arrowIcon.container &&
+        e.target !== this.multiSelected.arrowIcon.arrow &&
+        e.target !== this.multiSelected.container &&
+        (e.target instanceof HTMLElement && !e.target!.classList.contains('ss-value-text') && !e.target!.classList.contains('ss-value'))
     ) {
       this.onClose();
     }
@@ -59,12 +62,14 @@ export default class View {
       onOptionSelect: any,
       onClose: any,
       onOpen: any,
+      onRemoveMultiOption: any
   ) {
     this.element = el;
     this.originalElementDisplay = el.style.display;
     
     this.onSearch = onSearch;
     this.onOptionSelect = onOptionSelect;
+    this.onRemoveMultiOption = onRemoveMultiOption;
     this.onClose = onClose;
     this.onOpen = onOpen;
     
@@ -79,9 +84,9 @@ export default class View {
     const onClick = (): void => {
       this.isOpened ? this.onClose() : this.onOpen();
     }
-    this.singleSelected = buildSingleSelect(onClick);
+    this.multiSelected = buildMultiSelect(onClick);
     
-    this.container.appendChild(this.singleSelected.container)
+    this.container.appendChild(this.multiSelected.container)
     this.container.appendChild(this.content)
     
     this.content.appendChild(this.search.container)
@@ -110,10 +115,10 @@ export default class View {
   openPanel = (): void => {
     this.isOpened = true;
     
-    this.singleSelected.arrowIcon.arrow.classList.remove('arrow-down')
-    this.singleSelected.arrowIcon.arrow.classList.add('arrow-up')
+    this.multiSelected.arrowIcon.arrow.classList.remove('arrow-down')
+    this.multiSelected.arrowIcon.arrow.classList.add('arrow-up')
       
-    this.singleSelected.container.classList.add('ss-open-below')
+    this.multiSelected.container.classList.add('ss-open-below')
     
     this.content.classList.add('ss-open')
     
@@ -127,25 +132,53 @@ export default class View {
     this.isOpened = false;
     this.search.input.value = '';
     
-    this.singleSelected.container.classList.remove('ss-open-above')
-    this.singleSelected.container.classList.remove('ss-open-below')
-    this.singleSelected.arrowIcon.arrow.classList.add('arrow-down')
-    this.singleSelected.arrowIcon.arrow.classList.remove('arrow-up')
+    this.multiSelected.container.classList.remove('ss-open-above')
+    this.multiSelected.container.classList.remove('ss-open-below')
+    this.multiSelected.arrowIcon.arrow.classList.add('arrow-down')
+    this.multiSelected.arrowIcon.arrow.classList.remove('arrow-up')
     
     this.content.classList.remove('ss-open')
   }
   
   
-  setSelected = (option: Option): void => {
-    this.singleSelected.title.innerText = option.text;
+  setSelected = (options: Option[]): void => {
+    options.forEach((option) => {
+      const badge = buildMultiTitleBadge(option, this.onRemoveMultiOption);
+      this.multiSelected.values.appendChild(badge);
+    })
     
     Array.from(this.element.options).forEach((o) => {
-      if (o.value === option.value) {
+      if (options.find((x) => x.selected && x.value === o.value)) {
         o.selected = true;
       } else {
         o.selected = false;
       }
     })
+  }
+  
+  appendSelected = (option: Option): void => {
+    const badge = buildMultiTitleBadge(option, this.onRemoveMultiOption);
+    this.multiSelected.values.appendChild(badge);
+  
+    const domOption = Array.from(this.element.options).find((o) => o.value === option.value)
+    if (domOption) {
+      domOption.selected = true;
+    }
+  }
+  
+  removeSelected = (option: Option): void => {
+    const domBadge = Array.from(this.multiSelected.values.children).find((x) => {
+      return (x instanceof HTMLElement) && x.dataset.value === option.value;
+    })
+    
+    if (domBadge) {
+      domBadge.remove();
+    }
+    
+    const domOption = Array.from(this.element.options).find((o) => o.value === option.value)
+    if (domOption) {
+      domOption.selected = false;
+    }
   }
   
   setDisplayList = (options: Option[]): void => {

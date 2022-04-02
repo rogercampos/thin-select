@@ -26,10 +26,14 @@ const Template = (args) => {
 
   return `
   <div style="width: 30%;" >
-    <select id="select">
-      <option value=""></option>
+    <select id="select" multiple>
+<!--      <option value=""></option>-->
       <option value="1">First option</option>
       <option value="2" selected>Second option</option>
+      <option value="3" selected>dddddd option</option>
+      <option value="4" >arstar option</option>
+      <option value="5" >ddaa option</option>
+      <option value="6" >2222 option</option>
     </select>
   </div>
   `;
