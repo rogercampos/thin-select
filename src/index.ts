@@ -36,6 +36,10 @@ export default class ThinSelect {
     this.ajax = params.ajax;
   }
   
+  destroy = (): void => {
+    this.view.destroy();
+  }
+  
   onSearch = (text: string): void => {
     this.isSearching = true;
     

@@ -7,23 +7,29 @@ export default {
 } as Meta;
 
 const Template = (args) => {
+  let thinSelect;
+  
   setTimeout(() => {
-    new ThinSelect({
+    thinSelect = new ThinSelect({
       select: '#select',
-      ajax: (search, callback) => {
-        setTimeout(() => {
-          callback([{text: "", value: ""}, {text: "First option", value: "1"}, {text: "Second option", value: "2"}])
-        }, 400);
-      }
+      // ajax: (search, callback) => {
+      //   setTimeout(() => {
+      //     callback([{text: "", value: ""}, {text: "First option", value: "1"}, {text: "Second option", value: "2"}])
+      //   }, 400);
+      // }
     })
   }, 200);
+  
+  // setTimeout(() => {
+  //   thinSelect.destroy();
+  // }, 2000);
 
   return `
-  <div style="width: 30%">
+  <div style="width: 30%;" >
     <select id="select">
-<!--      <option value=""></option>-->
+      <option value=""></option>
       <option value="1">First option</option>
-<!--      <option value="2">Second option</option>-->
+      <option value="2" selected>Second option</option>
     </select>
   </div>
   `;

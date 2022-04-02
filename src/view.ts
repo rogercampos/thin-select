@@ -40,6 +40,20 @@ export default class View {
   
   public element: HTMLSelectElement;
   
+  public originalElementDisplay: string;
+  
+  onDocumentClick = (e: MouseEvent) => {
+    if (
+        this.isOpened && this.singleSelected &&
+        e.target !== this.singleSelected.title &&
+        e.target !== this.singleSelected.arrowIcon.container &&
+        e.target !== this.singleSelected.arrowIcon.arrow &&
+        e.target !== this.singleSelected.container
+    ) {
+      this.onClose();
+    }
+  }
+  
   constructor(
       el: HTMLSelectElement,
       isMultiple: boolean,
@@ -49,6 +63,8 @@ export default class View {
       onOpen: any,
   ) {
     this.element = el;
+    this.originalElementDisplay = el.style.display;
+    
     this.onSearch = onSearch;
     this.onOptionSelect = onOptionSelect;
     this.onClose = onClose;
@@ -80,6 +96,17 @@ export default class View {
       el.parentNode.insertBefore(this.container, el.nextSibling)
     } else {
       throw new Error('thin-select: The given select element must have a parent node');
+    }
+    
+    document.addEventListener('click', this.onDocumentClick);
+  }
+
+  destroy = (): void => {
+    this.element.style.display = this.originalElementDisplay;
+    document.removeEventListener('click', this.onDocumentClick);
+    
+    if (this.element.parentElement) {
+      this.element.parentElement.removeChild(this.container)
     }
   }
   
