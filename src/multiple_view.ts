@@ -43,15 +43,18 @@ export default class MultiView {
   
   public originalElementDisplay: string;
   
+  targetBelongsToContainer = (target: HTMLElement): boolean => {
+    if (target === this.container) {
+      return true;
+    } else if (target.parentNode) {
+      return this.targetBelongsToContainer(target.parentNode as HTMLElement);
+    } else {
+      return false;
+    }
+  }
+  
   onDocumentClick = (e: MouseEvent) => {
-    if (
-        this.isOpened &&
-        e.target !== this.multiSelected.values &&
-        e.target !== this.multiSelected.arrowIcon.container &&
-        e.target !== this.multiSelected.arrowIcon.arrow &&
-        e.target !== this.multiSelected.container &&
-        (e.target instanceof HTMLElement && !e.target!.classList.contains('ss-value-text') && !e.target!.classList.contains('ss-value'))
-    ) {
+    if (this.isOpened && e.target instanceof HTMLElement && !this.targetBelongsToContainer(e.target)) {
       this.onClose();
     }
   }
@@ -160,6 +163,12 @@ export default class MultiView {
     const badge = buildMultiTitleBadge(option, this.onRemoveMultiOption);
     this.multiSelected.values.appendChild(badge);
   
+    Array.from(this.list.children).forEach((x) => {
+      if (x instanceof HTMLElement && x.dataset.ssValue === option.value) {
+        x.classList.add('ss-option-selected');
+      }
+    })
+    
     const domOption = Array.from(this.element.options).find((o) => o.value === option.value)
     if (domOption) {
       domOption.selected = true;
@@ -174,6 +183,12 @@ export default class MultiView {
     if (domBadge) {
       domBadge.remove();
     }
+    
+    Array.from(this.list.children).forEach((x) => {
+      if (x instanceof HTMLElement && x.dataset.ssValue === option.value) {
+        x.classList.remove('ss-option-selected');
+      }
+    })
     
     const domOption = Array.from(this.element.options).find((o) => o.value === option.value)
     if (domOption) {

@@ -113,6 +113,7 @@ const generateOption = (option: Option, onOptionSelect: (a: Option) => void) => 
   const optionEl = document.createElement('div')
   optionEl.classList.add('ss-option')
   optionEl.setAttribute('role', 'option')
+  optionEl.dataset.ssValue = option.value;
   
   optionEl.addEventListener('click', () => {
     onOptionSelect(option);
@@ -141,7 +142,7 @@ const buildMultiTitleBadge = (option: Option, onRemoveMultiOption: any) => {
   span.classList.add('ss-value-text');
   
   const del = document.createElement('span');
-  del.innerText = 'x';
+  del.innerText = '⨯';
   del.classList.add('ss-value-delete');
   del.onclick = (e) => {
     e.stopPropagation();

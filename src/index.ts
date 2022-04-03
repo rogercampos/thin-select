@@ -101,7 +101,6 @@ export default class ThinSelect {
         option.selected = true;
         this.view.appendSelected(option);
       }
-    
     } else {
       this.view.setSelected(option);
       
@@ -112,14 +111,18 @@ export default class ThinSelect {
           x.selected = false;
         }
       })
+      this.closePanel();
     }
-    
-    this.closePanel();
   }
   
   onRemoveMultiOption = (option: Option): void => {
     if (this.view instanceof MultiView) {
-      option.selected = false;
+      this.displayedOptionsList.forEach((x) => {
+        if (x.value === option.value) {
+          x.selected = false;
+        }
+      })
+  
       this.view.removeSelected(option);
       this.view.setDisplayList(this.displayedOptionsList);
     }
