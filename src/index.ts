@@ -41,7 +41,10 @@ export default class ThinSelect {
       );
     }
     this.displayedOptionsList = initialSelectInfo.options;
-    this.view.setDisplayList(this.displayedOptionsList);
+    
+    if (!params.ajax) {
+      this.view.setDisplayList(this.displayedOptionsList);
+    }
     
     if (this.view instanceof MultiView) {
       this.view.setSelected(initialSelectInfo.options.filter(option => option.selected));
@@ -61,6 +64,11 @@ export default class ThinSelect {
     
     if (this.ajax) {
       this.ajax(text, (data: Option[]) => {
+        data.forEach((x) => {
+          if (this.displayedOptionsList.find((q) => q.selected && q.value === x.value)) {
+            x.selected = true;
+          }
+        })
         this.displayedOptionsList = data;
         this.view.setElementOptions(data);
         this.view.setDisplayList(data);
