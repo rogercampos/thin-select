@@ -78,6 +78,7 @@ const AjaxWithCustomHTMLTemplate = (args) => {
   `;
 };
 
+
 export const Raw = RawTemplate.bind({});
 export const Ajax = AjaxTemplate.bind({});
 export const CustomHtml = AjaxWithCustomHTMLTemplate.bind({});

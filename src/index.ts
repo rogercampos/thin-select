@@ -48,7 +48,7 @@ export default class ThinSelect {
     
     if (this.view instanceof MultiView) {
       this.view.setSelected(initialSelectInfo.options.filter(option => option.selected));
-    } else {
+    } else if (initialSelectInfo.defaultSingleOption) {
       this.view.setSelected(initialSelectInfo.defaultSingleOption);
     }
     
@@ -64,14 +64,16 @@ export default class ThinSelect {
     
     if (this.ajax) {
       this.ajax(text, (data: Option[]) => {
-        data.forEach((x) => {
-          if (this.displayedOptionsList.find((q) => q.selected && q.value === x.value)) {
-            x.selected = true;
-          }
-        })
-        this.displayedOptionsList = data;
-        this.view.setElementOptions(data);
-        this.view.setDisplayList(data);
+        if (data) {
+          data.forEach((x) => {
+            if (this.displayedOptionsList.find((q) => q.selected && q.value === x.value)) {
+              x.selected = true;
+            }
+          })
+          this.displayedOptionsList = data;
+          this.view.setElementOptions(data);
+          this.view.setDisplayList(data);
+        }
       });
     } else {
       const matchedOptions = this.displayedOptionsList.filter(option => this.searchFilter(option.text, text));

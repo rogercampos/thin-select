@@ -24,6 +24,7 @@ const buildSearch = (onSearch: onSearchType) => {
   
   input.type = 'search'
   input.tabIndex = 0
+  input.placeholder = 'Search'
   input.setAttribute('aria-label', "Search...")
   input.setAttribute('autocapitalize', 'off')
   input.setAttribute('autocomplete', 'off')
