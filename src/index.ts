@@ -1,19 +1,19 @@
 import "../styles/thin-select.scss"
-import View from "./view";
+import SingleView from "./single_view";
 import MultiView from "./multiple_view";
 import SelectParser from "./select_parser";
-import {Option} from "./models"
+import {ajaxCallbackType, Option} from "./models"
 
 interface ThinSelectParams {
   select: string | HTMLSelectElement;
-  ajax?: (inputText: string, callback: (data: Option[]) => void) => void;
+  ajax?: ajaxCallbackType;
 }
 
 export default class ThinSelect {
-  public view: View | MultiView;
+  public view: SingleView | MultiView;
   public displayedOptionsList: Option[];
   public isSearching: boolean;
-  public ajax: ((inputText: string, callback: (data: Option[]) => void) => void) | undefined;
+  public ajax: ajaxCallbackType | undefined;
   
   constructor(params: ThinSelectParams) {
     const el: HTMLSelectElement = typeof (params.select) === "string" ? (document.querySelector(params.select) as HTMLSelectElement) : params.select;
@@ -32,7 +32,7 @@ export default class ThinSelect {
           this.onRemoveMultiOption
       );
     } else {
-      this.view = new View(
+      this.view = new SingleView(
           el,
           this.onSearch,
           this.onOptionSelect,

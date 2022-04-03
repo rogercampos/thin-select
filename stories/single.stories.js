@@ -1,10 +1,9 @@
 import ThinSelect from "../build/index"
-import {Meta} from '@storybook/html';
 import "../build/thin-select.css"
 
 export default {
-  title: 'Multi Select'
-} as Meta;
+  title: 'Single'
+};
 
 const RawTemplate = (args) => {
   setTimeout(() => {
@@ -15,12 +14,10 @@ const RawTemplate = (args) => {
   
   return `
   <div style="width: 30%;" >
-    <select id="select" multiple style="display: none">
-      <option value="1">First option</option>
-      <option value="2" selected>Second option</option>
-      <option value="3" selected>3 option</option>
-      <option value="4" >4 option</option>
-      <option value="5" >5 option</option>
+    <select id="select" style="display: none">
+      <option value=""></option>
+      <option value="1" selected>First option</option>
+      <option value="2">Second option</option>
     </select>
   </div>
   `;
@@ -33,6 +30,7 @@ const AjaxTemplate = (args) => {
       ajax: (search, callback) => {
         setTimeout(() => {
           callback([
+            {text: "", value: ""},
             {text: "First option", value: "1"},
             {text: "Second option", value: "2"},
             {text: "3 option", value: "3"},
@@ -46,14 +44,12 @@ const AjaxTemplate = (args) => {
   
   return `
   <div style="width: 30%;" >
-    <select id="select" multiple style="display: none">
+    <select id="select" style="display: none">
       <option value="2" selected>Second option</option>
-      <option value="3" selected>3 option</option>
     </select>
   </div>
   `;
 };
-
 
 const AjaxWithCustomHTMLTemplate = (args) => {
   setTimeout(() => {
@@ -75,14 +71,12 @@ const AjaxWithCustomHTMLTemplate = (args) => {
   
   return `
   <div style="width: 30%;" >
-    <select id="select" multiple style="display: none">
+    <select id="select" style="display: none">
       <option value="2" selected>Second option</option>
-      <option value="3" selected>3 option</option>
     </select>
   </div>
   `;
 };
-
 
 export const Raw = RawTemplate.bind({});
 export const Ajax = AjaxTemplate.bind({});

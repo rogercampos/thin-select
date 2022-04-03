@@ -1,10 +1,9 @@
 import ThinSelect from "../build/index"
-import {Meta, StoryFn} from '@storybook/html';
 import "../build/thin-select.css"
 
 export default {
-  title: 'Single'
-} as Meta;
+  title: 'Multi Select'
+};
 
 const RawTemplate = (args) => {
   setTimeout(() => {
@@ -15,10 +14,12 @@ const RawTemplate = (args) => {
   
   return `
   <div style="width: 30%;" >
-    <select id="select" style="display: none">
-      <option value=""></option>
-      <option value="1" selected>First option</option>
-      <option value="2">Second option</option>
+    <select id="select" multiple style="display: none">
+      <option value="1">First option</option>
+      <option value="2" selected>Second option</option>
+      <option value="3" selected>3 option</option>
+      <option value="4" >4 option</option>
+      <option value="5" >5 option</option>
     </select>
   </div>
   `;
@@ -44,12 +45,14 @@ const AjaxTemplate = (args) => {
   
   return `
   <div style="width: 30%;" >
-    <select id="select" style="display: none">
+    <select id="select" multiple style="display: none">
       <option value="2" selected>Second option</option>
+      <option value="3" selected>3 option</option>
     </select>
   </div>
   `;
 };
+
 
 const AjaxWithCustomHTMLTemplate = (args) => {
   setTimeout(() => {
@@ -71,12 +74,14 @@ const AjaxWithCustomHTMLTemplate = (args) => {
   
   return `
   <div style="width: 30%;" >
-    <select id="select" style="display: none">
+    <select id="select" multiple style="display: none">
       <option value="2" selected>Second option</option>
+      <option value="3" selected>3 option</option>
     </select>
   </div>
   `;
 };
+
 
 export const Raw = RawTemplate.bind({});
 export const Ajax = AjaxTemplate.bind({});

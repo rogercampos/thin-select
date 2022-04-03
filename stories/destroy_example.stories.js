@@ -1,10 +1,9 @@
 import ThinSelect from "../build/index"
-import {Meta, StoryFn} from '@storybook/html';
 import "../build/thin-select.css"
 
 export default {
   title: 'Destroying'
-} as Meta;
+};
 
 const SingleTemplate = (args) => {
   let thinSelect;

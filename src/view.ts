@@ -1,64 +1,52 @@
-import {Option} from "./models";
+import {onCloseType, onOpenType, onOptionSelectType, onSearchType, Option, Search, SingleSelected, MultiSelected } from "./models";
 import {
   buildContainer,
-  buildContent,
-  buildResultsList,
-  buildSearch,
-  buildSingleSelect,
-  generateOption
+  buildOption
 } from "./dom_factory";
-
-export interface SingleSelected {
-  container: HTMLDivElement
-  title: HTMLSpanElement
-  arrowIcon: {
-    container: HTMLSpanElement
-    arrow: HTMLSpanElement
-  }
-}
-
-export interface Search {
-  container: HTMLDivElement
-  input: HTMLInputElement
-  addable?: HTMLDivElement
-}
-
 
 export default class View {
   public container: HTMLDivElement
-  public content: HTMLDivElement
-  public search: Search
-  public list: HTMLDivElement
-  public singleSelected: SingleSelected
+  public content!: HTMLDivElement
+  public search!: Search
+  public list!: HTMLDivElement
+  public titleBar!: SingleSelected | MultiSelected
   
-  public onSearch: any
-  public onClose: any
-  public onOpen: any
-  public onOptionSelect: any
+  public onSearch: onSearchType
+  public onClose: onCloseType
+  public onOpen: onOpenType
+  public onOptionSelect: onOptionSelectType
   public isOpened: boolean
   
   public element: HTMLSelectElement;
   
   public originalElementDisplay: string;
   
+  targetBelongsToContainer = (target: HTMLElement): boolean => {
+    if (target === this.container) {
+      return true;
+    } else if (target.parentNode) {
+      return this.targetBelongsToContainer(target.parentNode as HTMLElement);
+    } else {
+      return false;
+    }
+  }
+  
   onDocumentClick = (e: MouseEvent) => {
-    if (
-        this.isOpened &&
-        e.target !== this.singleSelected.title &&
-        e.target !== this.singleSelected.arrowIcon.container &&
-        e.target !== this.singleSelected.arrowIcon.arrow &&
-        e.target !== this.singleSelected.container
-    ) {
+    if (this.isOpened && e.target instanceof HTMLElement && !this.targetBelongsToContainer(e.target)) {
       this.onClose();
     }
   }
   
+  onClickOverTitle = (): void => {
+    this.isOpened ? this.onClose() : this.onOpen();
+  }
+  
   constructor(
       el: HTMLSelectElement,
-      onSearch: any,
-      onOptionSelect: any,
-      onClose: any,
-      onOpen: any,
+      onSearch: onSearchType,
+      onOptionSelect: onOptionSelectType,
+      onClose: onCloseType,
+      onOpen: onOpenType,
   ) {
     this.element = el;
     this.originalElementDisplay = el.style.display;
@@ -72,21 +60,6 @@ export default class View {
     
     this.container = buildContainer();
     
-    this.content = buildContent();
-    this.search = buildSearch(this.onSearch);
-    this.list = buildResultsList();
-    
-    const onClick = (): void => {
-      this.isOpened ? this.onClose() : this.onOpen();
-    }
-    this.singleSelected = buildSingleSelect(onClick);
-    
-    this.container.appendChild(this.singleSelected.container)
-    this.container.appendChild(this.content)
-    
-    this.content.appendChild(this.search.container)
-    this.content.appendChild(this.list)
-    
     el.style.display = 'none';
     
     if (el.parentNode) {
@@ -97,7 +70,7 @@ export default class View {
     
     document.addEventListener('click', this.onDocumentClick);
   }
-
+  
   destroy = (): void => {
     this.element.style.display = this.originalElementDisplay;
     document.removeEventListener('click', this.onDocumentClick);
@@ -110,10 +83,10 @@ export default class View {
   openPanel = (): void => {
     this.isOpened = true;
     
-    this.singleSelected.arrowIcon.arrow.classList.remove('arrow-down')
-    this.singleSelected.arrowIcon.arrow.classList.add('arrow-up')
-      
-    this.singleSelected.container.classList.add('ss-open-below')
+    this.titleBar.arrowIcon.arrow.classList.remove('arrow-down')
+    this.titleBar.arrowIcon.arrow.classList.add('arrow-up')
+    
+    this.titleBar.container.classList.add('ss-open-below')
     
     this.content.classList.add('ss-open')
     
@@ -127,35 +100,23 @@ export default class View {
     this.isOpened = false;
     this.search.input.value = '';
     
-    this.singleSelected.container.classList.remove('ss-open-above')
-    this.singleSelected.container.classList.remove('ss-open-below')
-    this.singleSelected.arrowIcon.arrow.classList.add('arrow-down')
-    this.singleSelected.arrowIcon.arrow.classList.remove('arrow-up')
+    this.titleBar.container.classList.remove('ss-open-above')
+    this.titleBar.container.classList.remove('ss-open-below')
+    this.titleBar.arrowIcon.arrow.classList.add('arrow-down')
+    this.titleBar.arrowIcon.arrow.classList.remove('arrow-up')
     
     this.content.classList.remove('ss-open')
   }
   
   
-  setSelected = (option: Option): void => {
-    this.singleSelected.title.innerText = option.text;
-    
-    Array.from(this.element.options).forEach((o) => {
-      if (o.value === option.value) {
-        o.selected = true;
-      } else {
-        o.selected = false;
-      }
-    })
-  }
-  
   setDisplayList = (options: Option[]): void => {
     this.list.innerHTML = '';
-    options.forEach((option) => this.list.appendChild(generateOption(option, this.onOptionSelect)))
+    options.forEach((option) => this.list.appendChild(buildOption(option, this.onOptionSelect)))
   };
   
   setElementOptions = (options: Option[]): void => {
     this.element.innerHTML = '';
-  
+    
     options.forEach((option) => {
       const opt = document.createElement('option');
       opt.value = option.value;

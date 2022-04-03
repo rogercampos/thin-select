@@ -1,6 +1,4 @@
-import {Option} from "./models"
-import { Search, SingleSelected } from "./view";
-import { MultiSelected } from "./multiple_view";
+import {onRemoveMultiOptionType, onSearchType, Option, Search, SingleSelected, MultiSelected } from "./models"
 
 const buildContainer = () => {
   const container = document.createElement('div');
@@ -14,7 +12,7 @@ const buildContent = () => {
   return content;
 }
 
-const buildSearch = (onSearch: (text: string) => void) => {
+const buildSearch = (onSearch: onSearchType) => {
   const container = document.createElement('div')
   container.classList.add('ss-search');
   const input = document.createElement('input')
@@ -70,6 +68,7 @@ const buildSingleSelect = (onClick: () => void): SingleSelected => {
   container.onclick = onClick;
   
   return {
+    type: 'single',
     container,
     title,
     arrowIcon: {
@@ -100,6 +99,7 @@ const buildMultiSelect = (onClick: () => void): MultiSelected => {
   container.onclick = onClick;
   
   return {
+    type: 'multi',
     container,
     values,
     arrowIcon: {
@@ -109,7 +109,7 @@ const buildMultiSelect = (onClick: () => void): MultiSelected => {
   }
 }
 
-const generateOption = (option: Option, onOptionSelect: (a: Option) => void) => {
+const buildOption = (option: Option, onOptionSelect: (a: Option) => void) => {
   const optionEl = document.createElement('div')
   optionEl.classList.add('ss-option')
   optionEl.setAttribute('role', 'option')
@@ -132,7 +132,7 @@ const generateOption = (option: Option, onOptionSelect: (a: Option) => void) => 
   return optionEl;
 }
 
-const buildMultiTitleBadge = (option: Option, onRemoveMultiOption: any) => {
+const buildMultiTitleBadge = (option: Option, onRemoveMultiOption: onRemoveMultiOptionType) => {
   const badge = document.createElement('div')
   badge.classList.add('ss-value');
   badge.dataset.value = option.value;
@@ -156,4 +156,4 @@ const buildMultiTitleBadge = (option: Option, onRemoveMultiOption: any) => {
 }
   
 
-export { buildContainer, buildContent, buildSearch, buildResultsList, buildSingleSelect, buildMultiSelect, generateOption, buildMultiTitleBadge };
+export { buildContainer, buildContent, buildSearch, buildResultsList, buildSingleSelect, buildMultiSelect, buildOption, buildMultiTitleBadge };
