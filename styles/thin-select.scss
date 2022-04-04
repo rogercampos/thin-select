@@ -332,7 +332,7 @@ $spacing-s: 4px !default;
         font-weight: bold;
       }
 
-      .ss-option {
+      .ss-option:not(.ss-custom-html) {
         padding: 6px 6px 6px 25px;
       }
     }
@@ -347,12 +347,14 @@ $spacing-s: 4px !default;
     }
 
     .ss-option {
-      padding: 6px 10px 6px 10px;
-      cursor: pointer;
-      user-select: none;
+      &:not(.ss-custom-html) {
+        padding: 6px 10px 6px 10px;
+        cursor: pointer;
+        user-select: none;
 
-      * {
-        display: inline-block;
+        * {
+          display: inline-block;
+        }
       }
 
       &:hover, &.ss-highlighted {

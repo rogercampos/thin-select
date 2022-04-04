@@ -247,30 +247,30 @@
     .ss-content .ss-list .ss-optgroup .ss-optgroup-label {
       padding: 6px 10px 6px 10px;
       font-weight: bold; }
-    .ss-content .ss-list .ss-optgroup .ss-option {
+    .ss-content .ss-list .ss-optgroup .ss-option:not(.ss-custom-html) {
       padding: 6px 6px 6px 25px; }
     .ss-content .ss-list .ss-optgroup-label-selectable {
       cursor: pointer; }
       .ss-content .ss-list .ss-optgroup-label-selectable:hover {
         color: #ffffff;
         background-color: #5897fb; }
-    .ss-content .ss-list .ss-option {
+    .ss-content .ss-list .ss-option:not(.ss-custom-html) {
       padding: 6px 10px 6px 10px;
       cursor: pointer;
       user-select: none; }
-      .ss-content .ss-list .ss-option * {
+      .ss-content .ss-list .ss-option:not(.ss-custom-html) * {
         display: inline-block; }
-      .ss-content .ss-list .ss-option:hover, .ss-content .ss-list .ss-option.ss-highlighted {
-        color: #ffffff;
-        background-color: #5897fb; }
-      .ss-content .ss-list .ss-option.ss-disabled {
-        cursor: not-allowed;
-        color: #dedede;
-        background-color: #ffffff; }
-      .ss-content .ss-list .ss-option:not(.ss-disabled).ss-option-selected {
-        color: #666666;
-        background-color: rgba(88, 151, 251, 0.1); }
-      .ss-content .ss-list .ss-option.ss-hide {
-        display: none; }
-      .ss-content .ss-list .ss-option .ss-search-highlight {
-        background-color: #fffb8c; }
+    .ss-content .ss-list .ss-option:hover, .ss-content .ss-list .ss-option.ss-highlighted {
+      color: #ffffff;
+      background-color: #5897fb; }
+    .ss-content .ss-list .ss-option.ss-disabled {
+      cursor: not-allowed;
+      color: #dedede;
+      background-color: #ffffff; }
+    .ss-content .ss-list .ss-option:not(.ss-disabled).ss-option-selected {
+      color: #666666;
+      background-color: rgba(88, 151, 251, 0.1); }
+    .ss-content .ss-list .ss-option.ss-hide {
+      display: none; }
+    .ss-content .ss-list .ss-option .ss-search-highlight {
+      background-color: #fffb8c; }

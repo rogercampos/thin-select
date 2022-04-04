@@ -107,11 +107,7 @@ export default class ThinSelect {
       this.view.setSelected(option);
       
       this.displayedOptionsList.forEach((x) => {
-        if (x.value === option.value) {
-          x.selected = true;
-        } else {
-          x.selected = false;
-        }
+        x.selected = (x.value === option.value);
       })
       this.closePanel();
     }

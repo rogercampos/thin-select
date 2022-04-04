@@ -43,6 +43,8 @@ export default class SingleView extends View {
         o.selected = false;
       }
     })
+    
+    this.element.dispatchEvent(new CustomEvent('change', { bubbles: true }))
   }
   
 }

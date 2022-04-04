@@ -59,6 +59,8 @@ export default class MultiView extends View {
         o.selected = false;
       }
     })
+  
+    this.element.dispatchEvent(new CustomEvent('change', { bubbles: true }))
   }
   
   appendSelected = (option: Option): void => {
@@ -76,7 +78,15 @@ export default class MultiView extends View {
       const domOption = Array.from(this.element.options).find((o) => o.value === option.value)
       if (domOption) {
         domOption.selected = true;
+      } else {
+        const newOption = document.createElement('option');
+        newOption.value = option.value;
+        newOption.innerText = option.text;
+        newOption.selected = true;
+        this.element.appendChild(newOption);
       }
+      
+      this.element.dispatchEvent(new CustomEvent('change', { bubbles: true }))
     }
   }
   
@@ -101,6 +111,8 @@ export default class MultiView extends View {
       if (domOption) {
         domOption.selected = false;
       }
+  
+      this.element.dispatchEvent(new CustomEvent('change', { bubbles: true }))
     }
   }
   

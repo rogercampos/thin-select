@@ -113,6 +113,9 @@ const buildMultiSelect = (onClick: () => void): MultiSelected => {
 const buildOption = (option: Option, onOptionSelect: (a: Option) => void) => {
   const optionEl = document.createElement('div')
   optionEl.classList.add('ss-option')
+  if (option.innerHtml) {
+    optionEl.classList.add('ss-custom-html')
+  }
   optionEl.setAttribute('role', 'option')
   optionEl.dataset.ssValue = option.value;
   
