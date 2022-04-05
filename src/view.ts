@@ -43,6 +43,7 @@ export default class View {
   
   constructor(
       el: HTMLSelectElement,
+      className: string | undefined,
       onSearch: onSearchType,
       onOptionSelect: onOptionSelectType,
       onClose: onCloseType,
@@ -58,7 +59,7 @@ export default class View {
     
     this.isOpened = false;
     
-    this.container = buildContainer();
+    this.container = buildContainer(className);
     
     el.style.display = 'none';
     

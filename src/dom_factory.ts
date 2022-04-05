@@ -1,8 +1,11 @@
 import {onRemoveMultiOptionType, onSearchType, Option, Search, SingleSelected, MultiSelected } from "./models"
 
-const buildContainer = () => {
+const buildContainer = (className?: string) => {
   const container = document.createElement('div');
   container.classList.add('ss-main');
+  if (className) {
+    container.classList.add(className);
+  }
   return container;
 }
 

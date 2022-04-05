@@ -11,12 +11,13 @@ import View from "./view";
 export default class SingleView extends View {
   constructor(
       el: HTMLSelectElement,
+      className: string | undefined,
       onSearch: onSearchType,
       onOptionSelect: onOptionSelectType,
       onClose: onCloseType,
       onOpen: onOpenType,
   ) {
-    super(el, onSearch, onOptionSelect, onClose, onOpen);
+    super(el, className, onSearch, onOptionSelect, onClose, onOpen);
     
     this.content = buildContent();
     this.search = buildSearch(this.onSearch);

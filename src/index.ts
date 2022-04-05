@@ -7,6 +7,7 @@ import {ajaxCallbackType, Option} from "./models"
 interface ThinSelectParams {
   select: string | HTMLSelectElement;
   ajax?: ajaxCallbackType;
+  class?: string;
 }
 
 export default class ThinSelect {
@@ -25,6 +26,7 @@ export default class ThinSelect {
     if (initialSelectInfo.isMultiple) {
       this.view = new MultiView(
           el,
+          params.class,
           this.onSearch,
           this.onOptionSelect,
           this.closePanel,
@@ -34,6 +36,7 @@ export default class ThinSelect {
     } else {
       this.view = new SingleView(
           el,
+          params.class,
           this.onSearch,
           this.onOptionSelect,
           this.closePanel,

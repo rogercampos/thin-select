@@ -21,13 +21,14 @@ export default class MultiView extends View {
   
   constructor(
       el: HTMLSelectElement,
+      className: string | undefined,
       onSearch: onSearchType,
       onOptionSelect: onOptionSelectType,
       onClose: onCloseType,
       onOpen: onOpenType,
       onRemoveMultiOption: onRemoveMultiOptionType
   ) {
-    super(el, onSearch, onOptionSelect, onClose, onOpen);
+    super(el, className, onSearch, onOptionSelect, onClose, onOpen);
     this.onRemoveMultiOption = onRemoveMultiOption;
     
     this.content = buildContent();

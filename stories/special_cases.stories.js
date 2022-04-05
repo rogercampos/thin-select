@@ -2,7 +2,7 @@ import ThinSelect from "../build/index"
 import "../build/thin-select.css"
 
 export default {
-  title: 'Edge cases'
+  title: 'Special cases'
 };
 
 const NoOptionsSingleTemplate = (args) => {
@@ -58,5 +58,26 @@ const NoOptionsMultiTemplate = (args) => {
   `;
 };
 
+const CustomClassAddedTemplate = (args) => {
+  setTimeout(() => {
+    new ThinSelect({
+      select: '#select',
+      class: 'special'
+    })
+  }, 200);
+
+  return `
+  <div style="width: 30%;" >
+    <select id="select" style="display: none">
+      <option value=""></option>
+      <option value="1" selected>First option</option>
+      <option value="2">Second option</option>
+    </select>
+  </div>
+  `;
+};
+
+
 export const NoOptionsSingle = NoOptionsSingleTemplate.bind({});
 export const NoOptionsMulti = NoOptionsMultiTemplate.bind({});
+export const CustomClassAdded = CustomClassAddedTemplate.bind({});
