@@ -68,7 +68,7 @@ export default class ThinSelect {
     if (this.ajax) {
       this.ajax(text, (data: Option[]) => {
         if (data) {
-          const parsedData = data.map((x) => {
+          const parsedData: Option[] = data.map((x) => {
             return {
               value: x.value.toString(),
               text: x.text.toString(),
@@ -83,8 +83,16 @@ export default class ThinSelect {
               x.selected = true;
             }
           })
+          
+          // We need to preserve existing selected options that do not appear on the result form the
+          // backend.
+          const pendingOptionsToInclude = this.displayedOptionsList.filter((q) => {
+            return q.selected && !parsedData.find((x) => x.value === q.value);
+          })
+          
           this.displayedOptionsList = parsedData;
-          this.view.setElementOptions(parsedData);
+          
+          this.view.setElementOptions(parsedData.concat(pendingOptionsToInclude));
           this.view.setDisplayList(parsedData);
         }
       });

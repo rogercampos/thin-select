@@ -102,9 +102,9 @@ const WorksFineWithNumbersAsValuesTemplate = (args) => {
 
       return `
   <div style="width: 30%;" >
-        <select id="select" style="display: none" multiple>
-          <option value="11" selected>bags (web)</option>
-              </select>
+    <select id="select" style="display: none" multiple>
+        <option value="11" selected>bags (web)</option>
+    </select>
   </div>
   `;
 };

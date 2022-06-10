@@ -92,8 +92,6 @@ export default class MultiView extends View {
   }
   
   removeSelected = (option: Option): void => {
-    
-    
     if (this.titleBar.type === 'multi') {
       const domBadge = Array.from(this.titleBar.values.children).find((x) => {
         return (x instanceof HTMLElement) && x.dataset.value === option.value;
