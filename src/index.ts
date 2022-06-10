@@ -68,14 +68,24 @@ export default class ThinSelect {
     if (this.ajax) {
       this.ajax(text, (data: Option[]) => {
         if (data) {
-          data.forEach((x) => {
+          const parsedData = data.map((x) => {
+            return {
+              value: x.value.toString(),
+              text: x.text.toString(),
+              // setting selected in a backend search makes no sense. Default selected options
+              // must be set on the original html.
+              selected: false,
+              innerHtml: x.innerHtml ? x.innerHtml.toString() : undefined,
+            };
+          })
+          parsedData.forEach((x) => {
             if (this.displayedOptionsList.find((q) => q.selected && q.value === x.value)) {
               x.selected = true;
             }
           })
-          this.displayedOptionsList = data;
-          this.view.setElementOptions(data);
-          this.view.setDisplayList(data);
+          this.displayedOptionsList = parsedData;
+          this.view.setElementOptions(parsedData);
+          this.view.setDisplayList(parsedData);
         }
       });
     } else {
