@@ -90,9 +90,10 @@ export default class ThinSelect {
             return q.selected && !parsedData.find((x) => x.value === q.value);
           })
           
-          this.displayedOptionsList = parsedData;
+          const newOptions = parsedData.concat(pendingOptionsToInclude)
+          this.displayedOptionsList = newOptions;
           
-          this.view.setElementOptions(parsedData.concat(pendingOptionsToInclude));
+          this.view.setElementOptions(newOptions);
           this.view.setDisplayList(parsedData);
         }
       });
